@@ -4,6 +4,7 @@ class Response < ActiveRecord::Base
   validates :user_id, presence: true
   validate :respondent_has_not_already_answered_question
   validate :respondent_is_not_author
+  # validate :does_not_respond_to_own_poll #redundant
 
   belongs_to(
     :answer_choice,
@@ -43,5 +44,11 @@ private
       errors.add(:response, "respondent is the author!")
     end
   end
+
+  # def does_not_respond_to_own_poll
+  #   if Poll.joins(questions: :responses).author_id == self.user_id
+  #     errors.add(:response, "can't respond to own poll!")
+  #   end
+  # end
 
 end
